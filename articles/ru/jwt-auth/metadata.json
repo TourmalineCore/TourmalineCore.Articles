@@ -1,4 +1,5 @@
 {
   "title": "JWT Authentication",
-  "description": "статья о пакетах для JWT аутентификации"
+  "description": "статья о пакетах для JWT аутентификации",
+  "isReady": true
 }
