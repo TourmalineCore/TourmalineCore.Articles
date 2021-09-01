@@ -1,4 +1,5 @@
 {
   "title": "JWT Authentication",
-  "description": "article about tourmalinecore jwt auth packages"
+  "description": "article about tourmalinecore jwt auth packages",
+  "path": "jwt-authentication"
 }
