@@ -1,5 +1,5 @@
 {
   "title": "TourmalineCore Pagination",
-  "description": "статья о пакете пагинации",
-  "slug": "tourmalinecore-pagination"
+  "description": "ASP.NET Core + React: Создание server-side таблиц с помощью пакетов TourmalineCore",
+  "slug": "asp-net-core-react-tables-with-pagination"
 }
