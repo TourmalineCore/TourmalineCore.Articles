@@ -1,0 +1,20 @@
+name: Deploy test
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  curl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: trigger development hook
+      uses: wei/curl@master
+      with:
+        args: ${{ secrets.DEV_WEB_HOOK_URL }}
+
+    - name: trigger production hook
+      uses: wei/curl@master
+      with:
+        args: ${{ secrets.PROD_WEB_HOOK_URL }}
