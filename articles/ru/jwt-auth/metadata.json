@@ -1,5 +1,6 @@
 {
   "title": "JWT Authentication",
   "description": "ASP.NET Core + React: Создание монолитного клиент-серверного приложения с аутентификацией и авторизацией с помощью пакетов TourmalineCore",
-  "slug": "asp-net-core-react-with-jwt-authentication"
+  "slug": "asp-net-core-react-with-jwt-authentication",
+  "datePublication": "28.05.2022"
 }
