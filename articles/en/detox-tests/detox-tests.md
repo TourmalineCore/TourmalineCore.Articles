@@ -64,7 +64,7 @@ The QR code is scanned with a special scanner inside the Metamask app. This scan
 
 I was wondering how to scan the image of QR-code, which I placed in advance on one of the templates, in automatic mode without my participation? And I came across a very simple solution.
 
-- In the Library / Android / sdk / emulator / resources folder there is a file called Toren1BD.posters. It stores information about the location of templates in space, in place of which you can insert your images.
+- In the _Library / Android / sdk / emulator / resources_ folder there is a file called Toren1BD.posters. It stores information about the location of templates in space, in place of which you can insert your images.
 - Open this file and add the following lines:
 ![DragAndDropThisCode](./images/DragAndDropThisCode.png)
 - Rename the QR code image to **custom.png** and place it in the directory with this file
@@ -165,7 +165,7 @@ Successful login and refresh requests will return JSON in the following form:
     }
 }
 ```
-So, every time we start Metamask in the emulator, we need to establish a connection between the wallet and the service in order to automate requests sending. That is, a new session must be saved each time you start tests. We have added a simple implementation (dao-service-stub) of the UI to display the QR code to the [repository](https://github.com/TourmalineCore/DAO-service.Api-service-tests). In the code you can find the onConnect event handler. In it we will receive the session after the connection is confirmed in Metamask. Next, we need to pass the session to the API. To do this, we call the save session endpoint.
+So, every time we start Metamask in the emulator, we need to establish a connection between the wallet and the service in order to automate requests sending. That is, a new session must be saved each time you start tests. We have added a simple implementation (dao-service-stub) of the UI to display the QR code to the [repository](https://github.com/TourmalineCore/DAO-service.Api-service-tests). In the code you can find the _onConnect_ event handler. In it we will receive the session after the connection is confirmed in Metamask. Next, we need to pass the session to the API. To do this, we call the save session endpoint.
 
 ``` javascript
 axios.post(`${BASE_URL}/walletConnectSessions`, connector.session, {
@@ -246,7 +246,7 @@ What is left is to refactor the Detox tests for our task. The application itself
 - modal window to confirm the transaction and its approval button
 - message confirmation modal window and its approval button
 
-We add an additional testId props to the components (if it was missing), for easy interaction with them in the tests. Changes can be seen in the [repository](https://github.com/TourmalineCore/Metamask.DetoxTests/pull/5).
+We add an additional _testId_ props to the components (if it was missing), for easy interaction with them in the tests. Changes can be seen in the [repository](https://github.com/TourmalineCore/Metamask.DetoxTests/pull/5).
 
 Next, we add clicking the appropriate buttons. To do this, we used test helpers already written by Metamask developers, such as `waitAndTap`: 
 
