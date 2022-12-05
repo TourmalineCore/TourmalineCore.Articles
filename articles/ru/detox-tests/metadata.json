@@ -2,5 +2,8 @@
   "title": "E2E testing user's flow between DApp and MetaMask using WalletConnect protocol",
   "description": "E2E-тестирование подключения по WalletConnect между DApp и мобильным приложением Metamask",
   "slug": "react-native-detox-e2e",
-  "datePublication": "11.10.2022" 
+  "datePublication": "11.10.2022",
+  "author": "Илья Сапронов",
+  "categories": ["Quality assurance"],
+  "previewImage": "Preview.png" 
 }

@@ -1,5 +1,7 @@
 {
   "title": "TourmalineCore Pagination",
   "description": "article about tourmalinecore pagination package",
-  "slug": "asp-net-core-react-tables-with-pagination"
+  "slug": "asp-net-core-react-tables-with-pagination",
+  "author": "Nikita Medvedev",
+  "categories": ["Backend", "Frontend"]
 }
