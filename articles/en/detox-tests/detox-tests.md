@@ -7,7 +7,7 @@ Application testing with end-to-end tests is quite popular nowadays. This type o
 In the summer of 2022 we were developing a blockchain application. My task was to perform E2E-testing of Decentralized App (DApp). But we faced a problem - there were no ready-made solutions for end-to-end DApp testing. This article will tell you about the way we solved this problem.
 
 
-![Preview](./images/Preview.png)
+![Preview](./images/Preview.webp)
 
 Hi there! My name is Elijah and I am a QA-Engineer at Tourmaline Core. I am involved in setting up testing processes at all levels. In this article I want to tell you about the problems I encountered on one of my projects, how I solved them and what the result was.
 
