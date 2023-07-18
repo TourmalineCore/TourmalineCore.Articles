@@ -65,7 +65,7 @@ const [isLoading, loadedClient] = useClient(clientId)
 Есть простое предложение. Давайте будем возвращать объект, а не массив. В таком случае последняя строчка в хуке будет такой:
 
 ```javascript
-return {loadedClient, isLoading}
+return { loadedClient, isLoading }
 ```
 
 .маскот.
@@ -73,19 +73,19 @@ return {loadedClient, isLoading}
 А использовать будем уже так:
 
 ```javascript
-const {loadedClient, isLoading} = useClient(clientId)
+const { loadedClient, isLoading } = useClient(clientId)
 ```
 
 Или так:
 
 ```javascript
-const {isLoading, loadedClient} = useClient(clientId)
+const { isLoading, loadedClient } = useClient(clientId)
 ```
 
 А вот так уже нельзя, а может даже линтер или ещё какой зверь нам подскажет, что тут ошибка:
 
 ```javascript
-const {loading, c} = useClient(clientId)
+const { loading, c } = useClient(clientId)
 ```
 
 ### Какие основные выводы по этому примеру:
