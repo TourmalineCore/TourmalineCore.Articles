@@ -287,7 +287,7 @@ const {
 1. Люди могут не понять. Кажется, это сильно расходится с тем, что люди повторяют в коде как мантру.
 
 <p align="center">
-  <img src="images/swim.png" width="40%">
+  <img src="images/swim.png" width="15%">
 </p>
 
 
