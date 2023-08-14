@@ -161,3 +161,17 @@
 3. три 
 
 ### Более подробное описание разметки файла README.md можно посмотреть по [ссылке](https://github.com/GnuriaN/format-README)
+
+## Шаги по публикации статьи
+
+После того, как сделали послежний commit & push
+
+1. Заходим в GitHub в проект
+
+2. Нажимаем зеленую кнопку "Compare & pull request"
+
+3. Дальше нажимаем зеленую кнопку " Create pull request"
+
+4. Нажимаем зеленую кнопку "Squash and merge"
+
+5. "Confirm squash and merge"
