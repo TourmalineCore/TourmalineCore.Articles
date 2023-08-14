@@ -1,0 +1,9 @@
+{
+  "title": "Сквозное тестирование DApp в связке с расширением Metamask",
+  "description": "Сквозное тестирование DApp в связке с расширением Metamask",
+  "slug": "synpress-e2e-tests",
+  "datePublication": "31.01.2023",
+  "author": "Илья Сапронов",
+  "categories": ["Quality assurance"],
+  "previewImage": "preview.png" 
+}
