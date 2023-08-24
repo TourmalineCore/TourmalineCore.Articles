@@ -1,0 +1,9 @@
+{
+  "title": "История о том, как использовать Nvidia Tesla A10 на небольшом рабочем сервере",
+  "description": "История о том, как использовать Nvidia Tesla A10 на небольшом рабочем сервере",
+  "slug": "tesla-a10-bash-gitlab-jupyter-linux-devops",
+  "datePublication": "22.08.2023",
+  "author": "Максим Сипатов",
+  "categories": ["ML", "DevOps"],
+  "previewImage": "preview.jpeg" 
+}
