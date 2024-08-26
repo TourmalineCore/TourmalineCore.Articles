@@ -1,0 +1,9 @@
+{
+    "title": "Cool features in Docker Compose — profiles and templates",
+    "description": "Let us tell you a story. A story of how we developed an API and decided to cover it with E2E-tests. Those were simple tests describing and checking API functionality, which turned out to be difficult to run. But first things first.",
+    "slug": "docker-compose profiles templates",
+    "datePublication": "25.07.2024",
+    "author": "Anna Kolesnikova, Alexandr Shinkarev",
+    "categories": ["DevOps"],
+    "previewImage": "preview.png" 
+  }
