@@ -1,9 +1,9 @@
 {
-    "title": "Cool features in Docker Compose — profiles and templates",
-    "description": "Cool features in Docker Compose — profiles and templates",
-    "slug": "docker-compose-profiles-templates",
-    "datePublication": "25.07.2024",
-    "author": "Anna Kolesnikova, Alexandr Shinkarev",
-    "categories": ["DevOps"],
-    "previewImage": "preview.png" 
-  }
+  "title": "Cool features in Docker Compose — profiles and templates",
+  "description": "Cool features in Docker Compose — profiles and templates",
+  "slug": "docker-compose-profiles-templates",
+  "datePublication": "25.07.2024",
+  "author": "Anna Kolesnikova",
+  "categories": ["DevOps"],
+  "previewImage": "preview.png"
+}

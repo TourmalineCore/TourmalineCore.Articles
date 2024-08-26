@@ -1,9 +1,9 @@
 {
-    "title": "Клёвые фичи в Docker Compose — профили и шаблоны",
-    "description": "Клёвые фичи в Docker Compose — профили и шаблоны",
-    "slug": "docker-compose-профили-шаблоны",
-    "datePublication": "25.07.2024",
-    "author": "Анна Колесникова, Александр Шинкарев",
-    "categories": ["DevOps"],
-    "previewImage": "preview.png" 
-  }
+  "title": "Клёвые фичи в Docker Compose — профили и шаблоны",
+  "description": "Клёвые фичи в Docker Compose — профили и шаблоны",
+  "slug": "docker-compose-profiles-templates",
+  "datePublication": "25.07.2024",
+  "author": "Анна Колесникова",
+  "categories": ["DevOps"],
+  "previewImage": "preview.png"
+}
