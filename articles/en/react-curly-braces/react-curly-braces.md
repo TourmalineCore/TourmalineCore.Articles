@@ -1,10 +1,10 @@
-# React: революция использования фигурных скобочек
+# React: Revolution in Using Curly Braces
 
 Well, **react**. We use so much of everything because it just happened that way historically: we write functions backwards (first we declare, then call them). We wrap everything in arrow functions and constants where a named function would be enough. The list goes on and on.
 
 In this article, I'd like to discuss a few habits that we all have but should probably reconsider.
 
-Let's start with a custom hook that needs to return a result, specifically a couple of values. A classic example would be a hook to request data over the network and track whether this request is in progress so that a loader could be added to the page.
+Let's start with a custom hook which returns a result, specifically a couple of values. A classic example would be a hook to request data over the network and track whether this request is in progress so that a loader could be added to the page.
 
 ```javascript
 function useClient(clientId) {
@@ -54,7 +54,7 @@ Or we make a mistake and write something like this:
 const [isLoading, loadedClient] = useClient(clientId)
 ```
 
-It seems that here we follow the useState pattern, which returns an array of a value and a function to update this value, and then we destructure the array and get everything by index, giving any names we want, that’s cool.
+It seems that here we follow the pattern of useState, which returns an array of a value and a function to update this value, and then we destructure the array and get its items by index, giving them whatever names we want, that’s cool.
 
 **Why was it supposed to do this for useState?**
 
@@ -88,7 +88,7 @@ Or this way:
 const { isLoading, loadedClient } = useClient(clientId)
 ```
 
-But this will be no longer possible, and maybe even a linter or something will tell us about an error here:
+But this will no longer be possible, and maybe even a linter or something will tell us about an error here:
 
 ```javascript
 const { loading, c } = useClient(clientId)
@@ -96,22 +96,22 @@ const { loading, c } = useClient(clientId)
 
 ### The main takeaways:
 
-1. The change in the code is minimal and does not affect the solution complexity.
+1. The change in the code is minimal and does not affect the solution's complexity.
 
 2. Relatively high type safety of our code.
 
 3. All the same goodies of destructuring, only not on arrays, but on objects.
 
-4. You can safely refactor the code: rearrange the returned properties inside the hook and in places of usage. After all, the order is no longer important, unlike array destructuring.
+4. You can safely refactor the code: rearrange the returned properties inside the hook and in places of usage. After all, the order is no longer important, unlike in case of array destructuring.
 
-Let's move on to a more or less **immutable rule:**: if only one thing is exported from a module, we should use the default export.
+Let's move on to a more or less **immutable rule:** if only one thing is exported from a module, we should use the default export.
 
 
 <p>
 <img src="images/panda-3.png"width="40%" />
 </p>
 
-That’ the way it can look in the module:
+That’s the way it can look in the module:
 
 ```javascript
 export default function myFancyFunction() {}
@@ -137,7 +137,7 @@ And if we try to use such a module somewhere, we will most likely write somethin
 import myFancyFunction from './my-fancy-function'
 ```
 
-And if a person hates us, they will import like this:
+And if a person hates us, they will import it like this:
 
 ```javascript
 import myFancy from './my-fancy-function'
@@ -147,9 +147,9 @@ import myFancy from './my-fancy-function'
   <img src="images/panda-4.png" width="40%">
 </p>
 
-In general, it should already be clear where we are going. Just the same as in the first example: we return something that can be called by a client by any name. And if we are not developing an npm package, but working within a single repository, is this what we want? That kind of flexibility?
+In general, it should already be clear where we are going. Just the same as in the first example: we return something that can be called by a client using any name. And if we are not developing an npm package, but working within a single repository, is this what we want? That kind of flexibility?
 
-Perhaps it is time to trample on the postulate that using default export for a single-function module is a must.
+Perhaps it is high time to trample on the postulate that using default export for a single-function module is a must.
 
 **Named export, your time has come!** Let's use you always.
 
@@ -167,7 +167,7 @@ function myFancyFunction() {}
   <img src="images/panda-5.png" width="40%">
 </p>
 
-And we’ll import this way:
+And we’ll import it this way:
 
 ```javascript
 import {
@@ -175,7 +175,7 @@ import {
 } from './my-fancy-function'
 ```
 
-**Here's the thing:**  if you always use named exports, then adding a new function exported from a module is essentially free of charge.
+**Here's the thing:**  if you always use named exports, adding a new function exported from a module is essentially free of charge.
 
 <p>
   <img src="images/panda-6.png"  width="40%" >
@@ -187,13 +187,13 @@ And we are also gradually moving to multi-line destructuring. When one thing goe
   <img src="images/panda-7.png" width="40%">
 </p>
 
-**Note:** VSCode has a strange behavior - the default export is not always renamed normally by the IDE. Maybe we have something wrong, or maybe it is just more difficult to do something for default exports. No problems with named ones have been noticed so far.
+**Note:** VSCode has a strange behavior - the IDE doesn't always rename the default export as expected. Maybe we have something wrong, or maybe it's just more difficult to do something for default exports. No problems with named ones have been noticed so far.
 
 <p>
   <img src="images/panda-8.png"  width="40%">
 </p>
 
-There are a couple of reasons to follow this particular rule anywhere there is object destructuring or something of the kind, like in the case of named imports:
+There's a couple of reasons to follow this particular rule anywhere you destructure an object or something of the kind, like in the case of named imports:
 
 1. Clean commit history in Git when you need to add a new property or export a new function.
 
@@ -211,7 +211,7 @@ There are a couple of reasons to follow this particular rule anywhere there is o
 
 ____
 
-### Let's try to combine everything we had in our custom hook and see what we get
+### Let's combine everything in our custom hook and see what we get
 
 ```javascript
 export {
@@ -267,7 +267,7 @@ ____
 
 In general, turns out the article is not about React at all. This approach is applicable to any ES6+ code written in JavaScript. It's just easier to illustrate the value using React custom hooks as an example.
 
-We ourselves use this approach everywhere (okay, we'll start soon). There is one reasonable exception regarding the Response Object from the RORO pattern. It seems that it doesn't always make sense to wrap everything in an object - for example, is it worth doing this for functions that return true/false flags? Perhaps this is too much:
+We ourselves use this approach everywhere (okay, we'll start soon). There's one reasonable exception regarding the Response Object from the RORO pattern. It seems that it doesn't always make sense to wrap everything in an object - for example, is it worth doing this for functions that return true/false flags? Perhaps this is too much:
 
 ```javascript
 const {
@@ -283,7 +283,7 @@ As for always returning objects as function results, we haven't made a final dec
 
 If you strictly follow this way:
 
-1. People might not understand. It seems to be very different from what people repeat in their code like a mantra.
+1. People might not understand. It seems very different from what people repeat in their code like a mantra.
 
 <p align="center">
   <img src="images/swim.png" width="15%">
@@ -327,7 +327,7 @@ welcomeClient({
 
 4. The history in Git will look neat and concise. Only the line that was actually changed will be highlighted, i.e. the line with the new result property/input parameter object property or the new export/import function.
 
-5. It seems (not sure) that IDEs work better with renaming object properties and module export functions when using this approach. Although VSCode sometimes stops halfway and this is not what you want.
+5. It seems (not sure) that this approach works better in IDE when renaming object properties and functions exported from a module. Although VSCode sometimes stops halfway and this is not what you want.
 
 <p align="center">
   <img src="images/code-2.png" width="70%">
