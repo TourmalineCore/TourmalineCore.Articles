@@ -1,0 +1,9 @@
+{
+  "title": "To Docker or not to Docker? Вот в чём JupyterLab",
+  "description": "Делимся своими подходами к изоляции окружения для работы с Jupyter-ноутбуками",
+  "slug": "environment-jupyterlab-jupyter-poetry-docker-mlops-ml-infrastructure",
+  "datePublication": "21.05.2025",
+  "author": "Cнежана Лазарева",
+  "categories": ["ML", "DevOps", "MLOps"],
+  "previewImage": "preview.png" 
+}
