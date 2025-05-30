@@ -1,0 +1,9 @@
+{
+  "title": "To Docker or not to Docker? That is JupyterLab",
+  "description": "Sharing our approaches to isolating environments for working with Jupyter",
+  "slug": "environment-jupyterlab-jupyter-poetry-docker-mlops-ml-infrastructure",
+  "datePublication": "21.05.2025",
+  "author": "Snezhana Lazareva",
+  "categories": ["ML", "DevOps", "MLOps"],
+  "previewImage": "preview.png" 
+}
