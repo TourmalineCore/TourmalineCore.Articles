@@ -172,7 +172,7 @@ You can read more about managing Poetry environments (how to activate them, crea
 
 ## Where to launch from?
 
-So, based off our experience, the approach with running a Jupyter environment from a Docker container is preferred because in this case you only need to have Docker installed on your device to work on experiments. Plus, it’s easy to control resource usage and such an environment can be reproduced the same way among all project’s team members regardless of their operating systems.
+So, based off our experience, the approach with running a Jupyter environment from a Docker container is preferable because in this case you only need to have Docker installed on your device to work on experiments. Plus, it’s easy to control resource usage and such an environment can be reproduced the same way among all project’s team members regardless of their operating systems.
 
 Local launch from a Poetry environment is a necessary measure, which (fingers crossed) will disappear in the future when MPS becomes available in Docker containers. Its cons include a necessity to install Poetry and Python and lack of complete experiment reproducibility as results may vary a little depending on team members’ operating systems. But there is an advantage unavailable with the Docker approach: an ability to use MPS for project’s members with Mac devices of M-series. 
 
