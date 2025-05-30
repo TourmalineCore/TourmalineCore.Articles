@@ -77,7 +77,7 @@ In general, we use Docker containers to isolate environments for experiments. We
 
 Dockerfile that we use for this purpose looks something like this:
 
-```dockerfile
+```
 # python version corresponds to the one required in pyproject.toml  
 FROM python:3.11.11-slim
 
