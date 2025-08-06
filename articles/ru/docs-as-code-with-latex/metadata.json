@@ -1,0 +1,9 @@
+{
+  "title": "Docs as Code: наш опыт документирования с LaTeX и Dev container",
+  "description": "Пишем документацию как код вместе с LaTeX и Dev container",
+  "slug": "docs-as-code-latex-dev-container-open-source-template",
+  "datePublication": "28.07.2025",
+  "author": "Антон Кирпичников",
+  "categories": ["Documentation", "Open source"],
+  "previewImage": "preview.png" 
+}
