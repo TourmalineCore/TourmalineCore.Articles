@@ -2,7 +2,7 @@
 
 If you have private repositories on GitHub and a team that regularly hits the GitHub Actions time limit, this article will save you a couple of weeks of experimentation.
 
-We’ll explain what runners are, how to set up self-hosted runners on Bare Metal and inside containers, how to configure their replication using Docker Compose, as well as the challenges we faced while searching for solutions to our problems, and what Docker-in-Docker has to do with it. We've tried to explain everything in enough detail that even beginners can follow along.
+We'll explain what runners are, how to set up self-hosted runners on Bare Metal and inside containers, how to configure their replication using Docker Compose, as well as the challenges we faced while searching for solutions to our problems, and what Docker-in-Docker has to do with it. We've tried to explain everything in enough detail that even beginners can follow along.
 
 If you'd like to see the result right away, you can find the complete source code and running instructions [here](https://github.com/TourmalineCore/github-self-hosted-runners-template).
 
