@@ -194,7 +194,7 @@ LABELS=self-hosted-amd64
 ```
 
 #### Building an image
-*DockerImage/Dockerfile*
+*DockerImage/Dockerfile*  
 Now let's move on to building the image itself. First, we specify the base for our image. We use the same distribution that was used to run the pipelines when we were using GitHub-runners.
 ```Dockerfile
 FROM ubuntu:24.04
@@ -269,7 +269,7 @@ ENTRYPOINT ["/start.sh"]
 
 The next step is the configuration for Docker Compose. It describes how many runner replicas there will be, how many resources are available to one replica, and other configuration.
 
-*docker-compose.yml*
+*docker-compose.yml*  
 Specify the path to the Dockerfile.
 ```yaml
 services:
@@ -278,7 +278,7 @@ services:
       dockerfile: Dockerfile
       context: ./DockerImage
 ```
-Next, we specify that the runner should always restart automatically, unless it was manually stopped. This is useful if it crashed or if the server on which the runner is deployed was restarted.
+Next, we specify that the runner should always restart automatically, unless it was manually stopped. This is useful if it crashed or if the server on which the runner is deployed was restarted.  
 Here, we also specify the file from which the variables will be read. In our case, this is `.env`.
 ```yaml
     restart: unless-stopped
@@ -313,7 +313,7 @@ And finally, let's move on to the script that will run when the container starts
 
 In this script, we link the runner to an organization, configure access to the `docker.sock` file so that the runner can communicate with Docker, handle the removal of the runner from the organization when it is stopped, and, at the very end, start the configured runner.
 
-*DockerImage/start.sh*
+*DockerImage/start.sh*  
 Add a runner to the organization.
 
 ```bash
@@ -380,7 +380,7 @@ Now you can run the amd64 + arm64 image build in the pipelines and enjoy the res
 ### New challenges
 In our pipelines, we not only build Docker images but also run tests. For example, to run high-level E2E tests, we create a k8s cluster and test the services deployed within it. If we run just one such test, everything works fine. But if we run these tests in parallel on multiple runners, we run into the problem that a cluster with the project name already exists, and we can’t create another one.  
 Why does this happen?  
-The reason is that when we created the runner, we mounted the Docker socket /var/run/docker.sock:/var/run/docker.sock. This approach is called “Docker-outside-of-Docker” and means that all Docker calls within the container are routed outside the container and executed by the Docker installed on the host machine. And if this Docker socket is mounted in every runner, then all runners effectively share a single Docker instance and a set of shared containers. At first glance, the solution seemed simple. You need to run Docker inside the runner instead of mounting the Docker socket. This approach is called Docker-in-Docker (DinD).
+The reason is that when we created the runner, we mounted the Docker socket `/var/run/docker.sock:/var/run/docker.sock`. This approach is called “Docker-outside-of-Docker” and means that all Docker calls within the container are routed outside the container and executed by the Docker installed on the host machine. And if this Docker socket is mounted in every runner, then all runners effectively share a single Docker instance and a set of shared containers. At first glance, the solution seemed simple. You need to run Docker inside the runner instead of mounting the Docker socket. This approach is called Docker-in-Docker (DinD).
 
 ### Building a DinD Runner
 For the most part, the image remains the same. Almost all dependencies are installed just as before.
@@ -397,12 +397,12 @@ RUN …
                    docker-ce=5:${DOCKER_VERSION}-1~ubuntu.24.04~noble \
 … 
 ```
->Note: Starting with Docker version 29, the release naming convention has changed, so you’ll need to edit the URL. See all releases here.  
->Note 2: We did not use the latest version of Docker (29.5.2 at the time of writing) in this article because, after restarting the container, we encountered an «error unmounting container» that we haven’t figured out yet, but we will definitely get to the bottom of it.
+>**Note**: Starting with Docker version 29, the release naming convention has changed, so you’ll need to edit the URL. See all releases here.  
+>**Note 2**: We did not use the latest version of Docker (29.5.2 at the time of writing) in this article because, after restarting the container, we encountered an «error unmounting container» that we haven’t figured out yet, but we will definitely get to the bottom of it.
 
-Next, we load the script that prepares the container to run Docker inside it. We added the -f flag so that the step fails if the file cannot be found.
+Next, we load the script that prepares the container to run Docker inside it. We added the `-f` flag so that the step fails if the file cannot be found.
 ```Dockerfile
-RUN curl -f "https://github.com/moby/moby/raw/v${DOCKER_VERSION}/hack/dind" -o /usr/local/bin/dind \  
+RUN curl -f "https://github.com/moby/moby/raw/v${DOCKER_VERSION}/hack/dind" -o /usr/local/bin/dind \
   && chmod a+x /usr/local/bin/dind
 ```
 
@@ -422,9 +422,9 @@ VOLUME /var/lib/docker
 ```
 
 #### Script for running the runner
-The script that runs when the container starts has also undergone some changes.
+The script that runs when the container starts has also undergone some changes.  
 *DockerImage/start.sh*  
-After restarting the container, we encountered an issue where the Docker process is considered running, which is why the new Docker daemon did not start, but Docker was not actually running. We also encountered the problem that after restarting, some of the Docker runtime states were broken if there was any container, which caused the container logs to contain «failed to load shim» errors.
+After restarting the container, we encountered an issue where the Docker process is considered running, which is why the new Docker daemon did not start, but Docker was not actually running. We also encountered the problem that after restarting, some of the Docker runtime states were broken if there was any container, which caused the container logs to contain «failed to load shim» errors.  
 To solve these problems, we delete the `docker.pid` file, which contains the ID of the running Docker process before restarting, but the process itself is no longer there. We also clear the docker runtime directory, where the runtime states of the containers remain.
 ```bash
 #!/bin/bash
