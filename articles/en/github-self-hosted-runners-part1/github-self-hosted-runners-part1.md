@@ -1,4 +1,4 @@
-# GitHub self-hosted runner in Docker: how to set up multiple isolated runners on a single host. Part 1
+# GitHub self-hosted runners in Docker: how to set up multiple isolated runners on a single host. Part 1
 
 If you have private repositories on GitHub and a team that regularly hits the GitHub Actions time limit, this article will save you a couple of weeks of experimentation.
 
@@ -28,11 +28,11 @@ If you'd like to see the result right away, you can find the complete source cod
 
 ## Background and description of the problem
 
-We used to use GitHub for open-source projects and GitLab for private development. But at one point, we were unable to register new GitLab accounts using Russian phone numbers, which tipped the scales in GitHub’s favor for private development too.
+We used to keep open-source projects on GitHub and private development on GitLab. But at one point, we were unable to register new GitLab accounts using Russian phone numbers, which tipped the scales in GitHub’s favor for private development too.
 
 A team of three people was working on a private project on GitHub. Every day, the team actively committed changes, and after each push to the branch, pipelines were triggered. Their total execution time was about 50 minutes. GitHub allocates [2,000 minutes](https://docs.github.com/en/get-started/learning-about-github/githubs-plans#github-free-for-organizations) per month to each organization for running pipelines on its runners for private repositories. The team used up these minutes during the first workweek of the month. Once the allocated minutes ran out, we had to wait until the next month to use GitHub Runners again. Because the minutes ran out, the process of deploying features to production stopped for all teams in the GitHub organization (they share a common limit across all of the organization’s repositories), so this limitation became a serious problem.
 
-At the time when we were using GitLab for private development, we used self-managed GitLab runners, which allowed us to run all our pipelines on our servers at the office. GitHub has a similar tool called GitHub [self-hosted runners](https://docs.github.com/en/actions/concepts/runners/self-hosted-runners), and it helped solve all our problems.
+Back when GitLab was our private-development platform, we used self-managed GitLab runners, which allowed us to run all our pipelines on our servers at the office. GitHub has a similar tool called GitHub [self-hosted runners](https://docs.github.com/en/actions/concepts/runners/self-hosted-runners), and it helped solve all our problems.
 
 In addition to our issue with minute limits, here are some other examples of problems that self-hosted GitHub runners can help you with:
 
@@ -72,7 +72,7 @@ sequenceDiagram
 GitHub initially provides its own runners where many [tools](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md) are pre-installed for your convenience. But there are many situations in which you may need a second type of runner, self-hosted. Self-hosted runners are the same runners that can run pipelines, but now they will run on your servers, use your server resources and store data on your servers while pipelines are running rather than on GitHub's servers. You can pre-install any tools, connect any devices needed for your project, and choose your own hardware configuration.
 
 ### About multiplatform
-In our company, everyone works on different devices, and these devices, in turn, run on different architectures: amd64 and arm64. Therefore, it is important for us to build Docker images for both amd64 and arm64, which means that we need to have 2 servers on the appropriate architectures. Experienced engineers might note that you can use the QEMU emulator to build an image for 2 platforms at once, using only 1 device. However, when using QEMU, the build time of images increases significantly, and in our comparison, it turns out to be much faster to build on native runners. You can find more details about the comparison in the presentation recording at the [link with the timecode](https://youtu.be/Xn8qtCbTffM?si=Xle8xI8XEX_igP4i&t=560).
+In our company, people work on various devices that run on different architectures: amd64 and arm64. Therefore, it is important for us to build Docker images for both amd64 and arm64, which means that we need to have 2 servers on the appropriate architectures. Experienced engineers might note that you can use the QEMU emulator to build an image for 2 platforms at once, using only 1 device. However, when using QEMU, the build time of images increases significantly, and according to a comparison we have made, it turns out to be much faster to build on native runners. You can find more details about the comparison in the presentation recording at the [link with the timecode](https://youtu.be/Xn8qtCbTffM?si=Xle8xI8XEX_igP4i&t=560).
 
 But in short, the measurements are as follows:
 
@@ -122,8 +122,8 @@ Next, we link the runner to the organization and launch it.
 
 When launching the runner through an interactive dialog, you can specify:
 * A separate group for the runner. Runners are grouped in order to control which repositories and pipelines can interact with runners from this group.
-* A name, so you can easily find it in the list of runners. It can be convenient when you want to separate runners by hardware configuration. For example, you can come up with a naming convention and name the runner «self-hosted-amd64-4cpu-8ram», which will mean amd64 architecture, 4 processor cores and 8 GB of RAM.
-* Labels that allow you to target specific runners when executing pipelines. For example, you can separate runners by hardware configuration.:
+* A name, so you can easily find it in the list of runners. It can be convenient when you want to separate runners by hardware configuration. For example, you can come up with a naming convention and name the runner "self-hosted-amd64-4cpu-8ram", which will mean amd64 architecture, 4 processor cores, and 8 GB of RAM.
+* Labels that allow you to target specific runners when executing pipelines. For example, you can separate runners by hardware configuration:
 ```yaml
 jobs:   
   build-amd64:  
@@ -141,7 +141,7 @@ For the arm64 runner, everything is done the same way.
 >
 >`echo "REGISTRY_IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}`
 >
->This command will not run on macOS and will fail with a «bad substitution» error. If a runner on macOS attempts to run a pipeline that uses this command, the pipeline will fail. There are two ways to resolve this issue:
+>This command will not run on macOS and will fail with a "bad substitution" error. If a runner on macOS attempts to run a pipeline that uses this command, the pipeline will fail. There are two ways to resolve this issue:
 >1. Rewrite the pipelines for macOS.
 >2. Run the runner as a Docker container using the Ubuntu base image.
 >
@@ -150,7 +150,7 @@ For the arm64 runner, everything is done the same way.
 ## Evolving from Bare Metal to a container
 
 ### Testing the Bare Metal runner
-To run pipelines on self-hosted runners, you need to specify the label of the desired runner in «runs-on». In our case, this is «self-hosted-amd64» for building an amd64 image.
+To run pipelines on self-hosted runners, you need to specify the label of the desired runner in "runs-on". In our case, this is "self-hosted-amd64" for building an amd64 image.
 <p align="center">
   <img src="images/label.png" loop=infinite>
 </p>
@@ -174,7 +174,7 @@ Someone might argue that this could be automated with a script with which you ca
 We’ve come to the conclusion that runners can be run as separate Docker containers, because that way we can specify all the tools in advance in the Dockerfile, easily reproduce the runner, and create multiple replicas of the runner using Docker Compose.
 
 ### Running runners in Docker
-Unfortunately, GitHub doesn’t offer a ready-made solution for deploying a runner into a container without using Kubernetes (unlike GitLab, for example). While researching this issue online, we found an [implementation](https://github.com/Groupe-3D/self-hosted-runner) that should help us. The current implementation includes many tools that aren’t necessary for our purposes. Let’s build a minimal image based on this repository.
+Unfortunately, GitHub doesn’t offer a ready-made solution for deploying a runner into a container without using Kubernetes (unlike GitLab, for example). While researching this issue online, we found an [implementation](https://github.com/Groupe-3D/self-hosted-runner) that should help us. The current implementation includes many tools that we don't need. Let’s build a minimal image based on this repository.
 
 #### Environment variables
 The first step is to create a file in which all the variables will be recorded. As usual, we'll call this file `.env`.
@@ -199,7 +199,7 @@ Now let's move on to building the image itself. First, we specify the base for o
 ```Dockerfile
 FROM ubuntu:24.04
 ```
-Using `update` we get information on the packages available for installation, through `upgrade` we update already installed packages and through `install` we install the minimum set of tools necessary for downloading, configuring and launching the runner.
+Using `update` we get the information on the packages available for installation, through `upgrade` we update already installed packages and through `install` we install the minimum set of tools necessary for downloading, configuring, and launching the runner.
 ```Dockerfile
 RUN apt-get update -y && \
     apt-get upgrade -y && \
@@ -232,7 +232,7 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
                    docker-compose-plugin && \
     rm -rf /var/lib/apt/lists/*
 ```
-By default, the runner will fail with the error «Must not run with sudo» if you run it via `sudo`, so you need to create a separate user. For example, with the name `runner`. Additionally, add the newly created user to the `sudo` group and enable password-free access so that commands can be run via `sudo` as this user — you’ll need this to configure the runner in the startup script later on.
+By default, the runner will fail with the error "Must not run with sudo" if you run it via `sudo`, so you need to create a separate user. For example, with the name `runner`. Additionally, add the newly created user to the `sudo` group and enable password-free access so that commands can be run via `sudo` as this user — you’ll need this to configure the runner in the startup script later on.
 
 ```Dockerfile
 RUN useradd -m runner && \
@@ -338,7 +338,7 @@ if getent group "${DOCKER_GID}" >/dev/null; then
   export DOCKER_GNAME=$(stat -c '%G' /var/run/docker.sock)  
   sudo usermod -aG ${DOCKER_GNAME} runner    
 else  
-  # # Create the group if it doesn't exist, then add the user to it 
+  # Create the group if it doesn't exist, then add the user to it 
   sudo groupadd -g ${DOCKER_GID} docker  
   sudo usermod -aG docker runner  
 fi
@@ -397,8 +397,8 @@ RUN …
                    docker-ce=5:${DOCKER_VERSION}-1~ubuntu.24.04~noble \
 … 
 ```
->**Note**: Starting with Docker version 29, the release naming convention has changed, so you’ll need to edit the URL. See all releases here.  
->**Note 2**: We did not use the latest version of Docker (29.5.2 at the time of writing) in this article because, after restarting the container, we encountered an «error unmounting container» that we haven’t figured out yet, but we will definitely get to the bottom of it.
+>**Note**: Starting with Docker version 29, the release naming convention has changed, so you’ll need to edit the URL. See all releases [here](https://github.com/moby/moby/releases).  
+>**Note 2**: We did not use the latest version of Docker (29.5.2 at the time of writing) in this article because, after restarting the container, we encountered an "error unmounting container" that we haven’t figured out yet, but we will definitely get to the bottom of it.
 
 Next, we load the script that prepares the container to run Docker inside it. We added the `-f` flag so that the step fails if the file cannot be found.
 ```Dockerfile
@@ -424,7 +424,7 @@ VOLUME /var/lib/docker
 #### Script for running the runner
 The script that runs when the container starts has also undergone some changes.  
 *DockerImage/start.sh*  
-After restarting the container, we encountered an issue where the Docker process is considered running, which is why the new Docker daemon did not start, but Docker was not actually running. We also encountered the problem that after restarting, some of the Docker runtime states were broken if there was any container, which caused the container logs to contain «failed to load shim» errors.  
+After restarting the container, we encountered an issue where the Docker process is considered running, which is why the new Docker daemon did not start, but Docker was not actually running. We also encountered the problem that after restarting, some of the Docker runtime states were broken if there was any container, which caused the container logs to contain "failed to load shim" errors.  
 To solve these problems, we delete the `docker.pid` file, which contains the ID of the running Docker process before restarting, but the process itself is no longer there. We also clear the docker runtime directory, where the runtime states of the containers remain.
 ```bash
 #!/bin/bash
@@ -467,7 +467,7 @@ docker compose up -d –-build
 After that, we can run several pipelines in parallel and enjoy the results.
 
 ### Results
-This solution has both advantages and disadvantages. The main task was to resume the work of the teams in private repositories, and self-hosted runners solved that problem perfectly. In addition, the advantage is that you can pre-install and configure the necessary tools, any hardware configuration, connect and use external devices, as well as use runners as much as we need. However, the disadvantage is that when pipelines are executed, a lot of data is stored on the disk, which is not deleted after the pipeline is executed. Because of this, you have to add a cleanup step after completing the pipeline. Example:
+This solution has both advantages and disadvantages. The main task was to resume the work of the teams in private repositories, and self-hosted runners solved that problem perfectly. In addition, the advantage is that we can pre-install and configure the necessary tools, any hardware configuration, connect and use external devices, as well as use runners as much as we need. However, the disadvantage is that when pipelines are executed, a lot of data is stored on the disk, which is not deleted after the pipeline is executed. Because of this, you have to add a cleanup step after completing the pipeline. Example:
 
 <p align="center">
   <img src="images/cleanup-step.png" loop=infinite>
@@ -475,6 +475,6 @@ This solution has both advantages and disadvantages. The main task was to resume
 
 In addition, if you are limited in resources, then you need to spend time estimating how much CPU and RAM is consumed when executing pipelines in order to set limits correctly.  
 There is a type of runners that are created immediately before the pipeline is executed and deleted immediately after execution, that is, they do not save any state. Such runners are called **ephemeral**, but we will talk about them in the second part of this article.  
-Thanks for reading! If you have any ideas for improvements or comments on the described configuration, then write about them in the comments under this article, we will be glad to hear your opinion.
+Thanks for reading! If you have any ideas for improvement or comments on the configuration described, please leave them in the comments below. We’d love to hear what you think.
 
 The authors of the article: Maxim Rychkov, Maria Yadryshnikova
