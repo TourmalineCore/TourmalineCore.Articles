@@ -1,0 +1,9 @@
+{
+  "title": "GitHub self-hosted runners в Docker: как поднять несколько изолированных раннеров на одном хосте. Часть 1",
+  "description": "GitHub self-hosted runners в Docker: как поднять несколько изолированных раннеров на одном хосте. Часть 1",
+  "slug": "github-docker-runner-docker-compose-cicd-github-actions-dind-runners",
+  "datePublication": "16.06.2026",
+  "author": "Максим Рычков, Мария Ядрышникова",
+  "categories": ["DevOps"],
+  "previewImage": "preview.png" 
+}
