@@ -1,0 +1,9 @@
+{
+  "title": "GitHub self-hosted runner in Docker: how to set up multiple isolated runners on a single host. Part 1",
+  "description": "GitHub self-hosted runner in Docker: how to set up multiple isolated runners on a single host. Part 1",
+  "slug": "github-docker-runner-docker-compose-cicd-github-actions-dind-runners",
+  "datePublication": "16.06.2026",
+  "author": "Maxim Rychkov, Maria Yadryshnikova",
+  "categories": ["DevOps"],
+  "previewImage": "preview.png" 
+}
