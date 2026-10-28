@@ -196,11 +196,11 @@ LABELS=self-hosted-amd64
 #### Building an image
 *DockerImage/Dockerfile*  
 Now let's move on to building the image itself. First, we specify the base for our image. We use the same distribution that was used to run the pipelines when we were using GitHub-runners.
-```Dockerfile
+```bash
 FROM ubuntu:24.04
 ```
 Using `update` we get the information on the packages available for installation, through `upgrade` we update already installed packages and through `install` we install the minimum set of tools necessary for downloading, configuring, and launching the runner.
-```Dockerfile
+```bash
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y \
@@ -213,7 +213,7 @@ sudo (superuser do) — a utility that allows non-root users to execute commands
 ca-certificates — a package that contains a set of trusted certificates from certificate authorities. It is required to enable TLS connections. It is used in the image to install Docker.
 
 We need Docker in order to build images, so we’ll install it following the [official instructions](https://docs.docker.com/engine/install/ubuntu). To avoid having to specify the Docker version in multiple places, we’ve included it as an argument. Important: You must specify the same version that is installed on your server, or a compatible one. Docker releases can be found [here](https://docs.docker.com/engine/release-notes).
-```Dockerfile
+```bash
 ARG DOCKER_VERSION="28.5.2"
 
 RUN install -m 0755 -d /etc/apt/keyrings && \
@@ -234,14 +234,14 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
 ```
 By default, the runner will fail with the error "Must not run with sudo" if you run it via `sudo`, so you need to create a separate user. For example, with the name `runner`. Additionally, add the newly created user to the `sudo` group and enable password-free access so that commands can be run via `sudo` as this user — you’ll need this to configure the runner in the startup script later on.
 
-```Dockerfile
+```bash
 RUN useradd -m runner && \
     usermod -aG sudo runner && \
     echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers
 ```
 Next, we’ll use the `TARGETARCH` argument built into Docker, which specifies the platform for which the image is being built. This is needed to automatically select the runner based on our hardware platform. We’ll also include the runner version as an argument. This allows us to specify the version in a single place, in case you need to update the runner. The runner releases can be found [here](https://github.com/actions/runner/releases). After downloading the runner, we install the necessary dependencies. Next, copy the script to run the runner (we'll show it later), and call it.
 
-```Dockerfile
+```bash
 ARG TARGETARCH
 ARG RUNNER_VERSION="2.334.0"
 
@@ -390,7 +390,7 @@ For the most part, the image remains the same. Almost all dependencies are insta
 
 When you install Docker, the `docker-ce` package is added. It is needed to run Docker inside the container itself, rather than using the Docker installed on the host.
 
-```Dockerfile
+```bash
 …  
 RUN …
     apt install -y --no-install-recommends \
@@ -401,13 +401,13 @@ RUN …
 >**Note 2**: We did not use the latest version of Docker (29.5.2 at the time of writing) in this article because, after restarting the container, we encountered an "error unmounting container" that we haven’t figured out yet, but we will definitely get to the bottom of it.
 
 Next, we load the script that prepares the container to run Docker inside it. We added the `-f` flag so that the step fails if the file cannot be found.
-```Dockerfile
+```bash
 RUN curl -f "https://github.com/moby/moby/raw/v${DOCKER_VERSION}/hack/dind" -o /usr/local/bin/dind \
   && chmod a+x /usr/local/bin/dind
 ```
 
 As before, we create a user and add the user to the sudo group, but now the Docker group is created when the docker-ce package is installed, so there’s no need to create it manually, and you can add the user directly to the Dockerfile.
-```Dockerfile
+```bash
 RUN useradd -m runner && \
     usermod -aG sudo runner && \
     usermod -aG docker runner && \
@@ -417,7 +417,7 @@ RUN useradd -m runner && \
 From here on, everything is the same as before: we load the runner and copy the script to start it.
 
 The only change you need to make before the entrypoint is to add a volume for the `/var/lib/docker` directory. This is done to use the `overlay2` storage driver. Otherwise, the slower `VFS` will be used, which may cause errors when working with containers. For example, a k8s cluster might not be created because, according to the [documentation](https://etcd.io/docs/v3.3/op-guide/hardware), etcd (the data store in Kubernetes) requires a fast storage device.
-```Dockerfile
+```bash
 VOLUME /var/lib/docker
 ```
 
